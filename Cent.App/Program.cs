@@ -21,8 +21,13 @@ Console.WriteLine("1 - pick first sound");
 Console.WriteLine("2 - pick second sound");
 Console.WriteLine("Any buttom - repeat question");
 
+int questionNumber = 1;
+int correctAnswers = 0;
 while (true)
 {
+    Console.WriteLine($"QUESTION: {questionNumber}");
+    Console.WriteLine($"CORRECT: {correctAnswers}");
+
     var question = game.GetQuestion();
 
     question.PlayFirstNote();
@@ -40,6 +45,7 @@ while (true)
                 if (question.CheckAnswer(true))
                 {
                     Console.WriteLine("Correct!");
+                    correctAnswers++;
                 }
                 else
                 {
@@ -51,6 +57,7 @@ while (true)
                 if (question.CheckAnswer(false))
                 {
                     Console.WriteLine("Correct!");
+                    correctAnswers++;
                 }
                 else
                 {
@@ -64,4 +71,5 @@ while (true)
                 break;
         }
     }
+    questionNumber++;
 }
