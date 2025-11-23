@@ -1,8 +1,22 @@
 ﻿using Cent.Core.Gamemodes;
 
-var game = new SelectLowerSound();
 
-Console.WriteLine("Select the lower sound!");
+Console.WriteLine("Select the difficulity (in cents):");
+Console.WriteLine("(semitone - 100):");
+
+var success = false;
+int differenceInCentiles = 0;
+while (!success)
+{
+    var response = Console.ReadLine();
+    success = int.TryParse(response, out differenceInCentiles);
+    if (!success)
+        Console.WriteLine("Enter a valid number.");
+}
+
+var game = new SelectLowerSound(differenceInCentiles);
+
+Console.WriteLine("Pick the lower sound!");
 Console.WriteLine("1 - pick first sound");
 Console.WriteLine("2 - pick second sound");
 Console.WriteLine("Any buttom - repeat question");
