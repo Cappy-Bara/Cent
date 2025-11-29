@@ -50,6 +50,15 @@ while (true)
                 else
                 {
                     Console.WriteLine("Wrong!");
+                    Console.WriteLine("3 for next, any for repeat");
+
+                    while (response != "3")
+                    {
+                        question.PlayFirstNote();
+                        Thread.Sleep(500);
+                        question.PlaySecondNote();
+                        response = Console.ReadLine();
+                    }
                 }
                 break;
             case "2":
@@ -62,6 +71,15 @@ while (true)
                 else
                 {
                     Console.WriteLine("Wrong!");
+                    Console.WriteLine("3 for next, any for repeat");
+
+                    while (response != "3")
+                    {
+                        question.PlayFirstNote();
+                        Thread.Sleep(500);
+                        question.PlaySecondNote();
+                        response = Console.ReadLine();
+                    }
                 }
                 break;
             default:
