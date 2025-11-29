@@ -1,19 +1,9 @@
 ﻿using Cent.Core.Gamemodes;
 
-
 Console.WriteLine("Select the difficulity (in cents):");
 Console.WriteLine("(semitone - 100):");
 
-var success = false;
-int differenceInCentiles = 0;
-while (!success)
-{
-    var response = Console.ReadLine();
-    success = int.TryParse(response, out differenceInCentiles);
-    if (!success)
-        Console.WriteLine("Enter a valid number.");
-}
-
+int differenceInCentiles = GetDifficulity();
 var game = new SelectLowerSound(differenceInCentiles);
 
 Console.WriteLine("Pick the lower sound!");
@@ -26,68 +16,85 @@ int correctAnswers = 0;
 while (true)
 {
     Console.WriteLine($"QUESTION: {questionNumber}");
-    Console.WriteLine($"CORRECT: {correctAnswers}");
+    Console.WriteLine($"CORRECT: {correctAnswers}/{questionNumber-1}");
 
     var question = game.GetQuestion();
 
-    question.PlayFirstNote();
-    Thread.Sleep(500);
-    question.PlaySecondNote();
+    PlaySound(question);
 
     bool isResponded = false;
     while (!isResponded)
     {
-        var response = Console.ReadLine();
-        switch (response)
+        var response = GetResponse();
+
+        if (response is not null)
         {
-            case "1":
-                isResponded = true;
-                if (question.CheckAnswer(true))
-                {
-                    Console.WriteLine("Correct!");
-                    correctAnswers++;
-                }
-                else
-                {
-                    Console.WriteLine("Wrong!");
-                    Console.WriteLine("3 for next, any for repeat");
-
-                    while (response != "3")
-                    {
-                        question.PlayFirstNote();
-                        Thread.Sleep(500);
-                        question.PlaySecondNote();
-                        response = Console.ReadLine();
-                    }
-                }
-                break;
-            case "2":
-                isResponded = true;
-                if (question.CheckAnswer(false))
-                {
-                    Console.WriteLine("Correct!");
-                    correctAnswers++;
-                }
-                else
-                {
-                    Console.WriteLine("Wrong!");
-                    Console.WriteLine("3 for next, any for repeat");
-
-                    while (response != "3")
-                    {
-                        question.PlayFirstNote();
-                        Thread.Sleep(500);
-                        question.PlaySecondNote();
-                        response = Console.ReadLine();
-                    }
-                }
-                break;
-            default:
-                question.PlayFirstNote();
-                Thread.Sleep(500);
-                question.PlaySecondNote();
-                break;
+            isResponded = true;
+            if (question.CheckAnswer(response.Value))
+            {
+                Console.WriteLine("Correct!");
+                correctAnswers++;
+                continue;
+            }
+            
+            HandleMistake(question);
+            continue;
         }
+            
+        PlaySound(question);
     }
+
     questionNumber++;
+}
+
+int GetDifficulity()
+{
+    var success = false;
+    int differenceInCentiles = 0;
+
+    while (!success)
+    {
+        var response = Console.ReadLine();
+        success = int.TryParse(response, out differenceInCentiles);
+        if (!success)
+            Console.WriteLine("Enter a valid number.");
+
+        return differenceInCentiles;
+    }
+
+    return differenceInCentiles;
+}
+
+void HandleMistake(SelectHigherSoundQuestion question)
+{
+    var response = "";
+
+    Console.WriteLine("Wrong!");
+    Console.WriteLine("3 for next, any for repeat");
+
+    while (response != "3")
+    {
+        PlaySound(question);
+        response = Console.ReadLine();
+    }
+}
+
+void PlaySound(SelectHigherSoundQuestion question)
+{
+    question.PlayFirstNote();
+    Thread.Sleep(500);
+    question.PlaySecondNote();
+}
+
+bool? GetResponse()
+{
+    var response = Console.ReadLine();
+
+    if (response == "1")
+        return true;
+
+    if (response == "2")
+        return false;
+
+    return null;
 }
