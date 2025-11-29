@@ -25,7 +25,7 @@ public class SelectLowerSound
         var isLowerFirst = rand.Next(0, 2) == 0;
 
         var firstSound = new Sound(baseNote);
-        var secondSound = firstSound.GetNextUpperSoundByCentiles(differenceInCentiles);
+        var secondSound = firstSound.GetNextUpperSoundByCents(differenceInCentiles);
 
         return new SelectHigherSoundQuestion(firstSound, secondSound, isLowerFirst, service, playTimeInSeconds);
     }
