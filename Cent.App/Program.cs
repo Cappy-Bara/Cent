@@ -1,15 +1,13 @@
 ﻿using Cent.Core.Gamemodes;
+using Cent.Core.Gamemodes.Abstractions;
 
 Console.WriteLine("Select the difficulity (in cents):");
 Console.WriteLine("(semitone - 100):");
 
 int differenceInCentiles = GetDifficulity();
-var game = new SelectLowerSound(differenceInCentiles);
-
-Console.WriteLine("Pick the lower sound!");
-Console.WriteLine("1 - pick first sound");
-Console.WriteLine("2 - pick second sound");
-Console.WriteLine("Any buttom - repeat question");
+var game = new SelectTunedInterval(differenceInCentiles);
+//var game = new SelectLowerSound(differenceInCentiles);
+Console.WriteLine(game.Description);
 
 int questionNumber = 1;
 int correctAnswers = 0;
@@ -65,7 +63,7 @@ int GetDifficulity()
     return differenceInCentiles;
 }
 
-void HandleMistake(SelectHigherSoundQuestion question)
+void HandleMistake(IQuestion question)
 {
     var response = "";
 
@@ -79,11 +77,11 @@ void HandleMistake(SelectHigherSoundQuestion question)
     }
 }
 
-void PlaySound(SelectHigherSoundQuestion question)
+void PlaySound(IQuestion question)
 {
-    question.PlayFirstNote();
+    question.PlayFirst();
     Thread.Sleep(500);
-    question.PlaySecondNote();
+    question.PlaySecond();
 }
 
 bool? GetResponse()

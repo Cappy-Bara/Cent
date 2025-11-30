@@ -1,4 +1,5 @@
 ﻿using Cent.Core.Entities;
+using Cent.Core.Gamemodes.Abstractions;
 using Cent.Core.Services;
 
 namespace Cent.Core.Gamemodes;
@@ -14,6 +15,12 @@ public class SelectLowerSound
     {
         this.differenceInCentiles = differenceInCentiles;
     }
+
+    public string Description => @"
+Pick the lower sound!
+1 - pick first sound
+2 - pick second sound
+Any buttom - repeat question";
 
     public SelectHigherSoundQuestion GetQuestion()
     {
@@ -31,7 +38,7 @@ public class SelectLowerSound
     }
 }
 
-public class SelectHigherSoundQuestion
+public class SelectHigherSoundQuestion : IQuestion
 {
     private readonly IPlaySoundService playSoundService;
     private readonly float playTime;
@@ -50,7 +57,7 @@ public class SelectHigherSoundQuestion
 
     public bool CheckAnswer(bool isLowerFirst) => this.isLowerFirst == isLowerFirst;
 
-    public void PlayFirstNote()
+    public void PlayFirst()
     {
         if (isLowerFirst)
         {
@@ -61,7 +68,7 @@ public class SelectHigherSoundQuestion
         playSoundService.Play(higherSound, playTime);
     }
 
-    public void PlaySecondNote()
+    public void PlaySecond()
     {
         if (isLowerFirst)
         {
@@ -71,7 +78,4 @@ public class SelectHigherSoundQuestion
 
         playSoundService.Play(lowerSound, playTime);
     }
-
-    public void PlayBoth() =>
-        playSoundService.Play([lowerSound, higherSound], playTime);
 }
