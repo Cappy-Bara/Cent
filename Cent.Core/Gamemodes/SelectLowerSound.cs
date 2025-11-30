@@ -4,7 +4,7 @@ using Cent.Core.Services;
 
 namespace Cent.Core.Gamemodes;
 
-public class SelectLowerSound
+public class SelectLowerSound : IGamemode
 {
     private readonly double minFrequency = 130.81;
     private readonly double maxFrequency = 1046.5;
@@ -16,13 +16,15 @@ public class SelectLowerSound
         this.differenceInCentiles = differenceInCentiles;
     }
 
+    public static string Name => "Select lower sound";
+
     public string Description => @"
 Pick the lower sound!
 1 - pick first sound
 2 - pick second sound
 Any buttom - repeat question";
 
-    public SelectHigherSoundQuestion GetQuestion()
+    public IQuestion GetQuestion()
     {
         var service = new PlaySoundService();
 

@@ -1,12 +1,7 @@
 ﻿using Cent.Core.Gamemodes;
 using Cent.Core.Gamemodes.Abstractions;
 
-Console.WriteLine("Select the difficulity (in cents):");
-Console.WriteLine("(semitone - 100):");
-
-int differenceInCentiles = GetDifficulity();
-var game = new SelectTunedInterval(differenceInCentiles);
-//var game = new SelectLowerSound(differenceInCentiles);
+var game = GamemodeFactory.GetGamemode();
 Console.WriteLine(game.Description);
 
 int questionNumber = 1;
@@ -45,23 +40,6 @@ while (true)
     questionNumber++;
 }
 
-int GetDifficulity()
-{
-    var success = false;
-    int differenceInCentiles = 0;
-
-    while (!success)
-    {
-        var response = Console.ReadLine();
-        success = int.TryParse(response, out differenceInCentiles);
-        if (!success)
-            Console.WriteLine("Enter a valid number.");
-
-        return differenceInCentiles;
-    }
-
-    return differenceInCentiles;
-}
 
 void HandleMistake(IQuestion question)
 {
