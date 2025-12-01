@@ -87,10 +87,10 @@ public class GamemodeFactory
         {
             var response = Console.ReadLine();
             success = int.TryParse(response, out differenceInCentiles);
-            if (!success)
-                Console.WriteLine("Enter a valid number.");
+            if (success)
+                return differenceInCentiles;
 
-            return differenceInCentiles;
+                Console.WriteLine("Enter a valid number.");
         }
 
         return differenceInCentiles;
