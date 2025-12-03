@@ -3,6 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css">
     <title></title>
 </head>
 <body>
@@ -11,29 +12,74 @@
         Select lower sound
     </p>
 
-    <button onclick="checkAnswer(1)">
-        Select first
-    </button>
+    <div
+         class="settings">
 
-    <button onclick="playSound(first,500)">
-        Play first
-    </button>
+        <div>
+            <p>
+                Min frequency:
+            </p>
+            <input type="number"
+                   id="minFreq"
+                   name="minFreq"
+                   value="130.81"
+                   onchange="setMinFreq()" />
+        </div>
 
-    <button onclick="checkAnswer(2)">
-        Select second
-    </button>
 
-    <button onclick="playSound(second,500)">
-        Play second
-    </button>
+        <div>
+            <p>
+                Max frequency:
+            </p>
+            <input type="number"
+                   id="maxFreq"
+                   name="maxFreq"
+                   value="1046.5"
+                   onchange="setMaxFreq()" />
+        </div>
+        <div>
+            <p>
+                Difficulity (in cents):
+            </p>
+            <input type="number"
+                   id="difficulity"
+                   name="difficulity"
+                   value="10"
+                   onchange="setDifficulity()" />
+        </div>
+    </div>
 
-    <p id="success">
-        Success!
-    </p>
+    <div
+         class="game">
 
-    <p id="wrong">
-        Wrong!
-    </p>
+        <div>
+            <button class="control"
+                    onclick="checkAnswer(1)">
+                First is lower
+            </button>
+
+            <button class="control"
+                    onclick="playSound(first,500)">
+                <img src="sound.svg" alt="PlayFirst" width="80" height="80">
+            </button>
+        </div>
+        
+        <div>
+            <button class="control"
+                    onclick="checkAnswer(2)">
+                Second is lower
+            </button>
+
+            <button class="control"
+                    onclick="playSound(second,500)">
+                <img src="sound.svg" alt="PlaySecond" width="80" height="80">
+            </button>
+        </div>
+    </div>
+
+    <div class="results">
+        <p id="message"></p>
+    </div>
 
     <button id="nextButton"
             onclick="nextQuestion()">
@@ -45,8 +91,11 @@
     <script src="sounds.js"></script>
 
     <script>
-        const minFrequency = 130.81;
-        const maxFrequency = 1046.5;
+        let minFrequency, maxFrequency, difficulity;
+
+        setMinFreq();
+        setMaxFreq();
+        setDifficulity();
 
         let success = null;
         let isResponded = false;
@@ -56,16 +105,15 @@
 
         nextQuestion();
 
-
         function checkAnswer(selectedTone) {
             if ((isFirstHiger && selectedTone === 2) ||
                 (!isFirstHiger && selectedTone === 1)) {
-                showElement("success");
+                showSuccess();
                 showElement("nextButton");
                 success = true;
                 isResponded = true;
             } else {
-                showElement("wrong");
+                showWrong();
                 showElement("nextButton");
                 success = false;
                 isResponded = true;
@@ -73,25 +121,63 @@
         }
 
         function hideElement(element) {
-            document.getElementById(element).style.display = "none";
+            document.getElementById(element).style.visibility = "hidden";;
         }
 
         function showElement(element) {
-            document.getElementById(element).style.display = "block";
+            document.getElementById(element).style.visibility = "visible";;
         }
 
         function nextQuestion() {
             var lowerSound = (Math.random() * (maxFrequency - minFrequency)) + minFrequency;
-            var upperSound = getDetunedUpperSoundFrequency(lowerSound, 10);
+            var upperSound = getDetunedUpperSoundFrequency(lowerSound, difficulity);
 
             isFirstHiger = Math.random() < 0.5;
 
             first = isFirstHiger ? upperSound : lowerSound;
             second = isFirstHiger ? lowerSound : upperSound;
 
-            hideElement("success")
-            hideElement("wrong")
+            playSounds();
+
+            hideMessage()
             hideElement("nextButton");
+        }
+
+        function setDifficulity() {
+            difficulity = parseInt(document.getElementById("difficulity").value);
+        }
+
+        function setMinFreq() {
+            minFrequency = parseFloat(document.getElementById("minFreq").value);
+        }
+
+        function setMaxFreq() {
+            maxFrequency = parseFloat(document.getElementById("maxFreq").value);
+        }
+
+        function playSounds() {
+            playSound(first, 500);
+            setTimeout(() => {
+                playSound(second, 500);
+            }, 1000);
+        }
+
+        function showSuccess() {
+            const m = document.getElementById("message");
+            m.textContent = "Success!";
+            m.style.color = "green";
+            m.style.visibility = "visible";
+        }
+
+        function showWrong() {
+            const m = document.getElementById("message");
+            m.textContent = "Wrong!";
+            m.style.color = "red";
+            m.style.visibility = "visible";
+        }
+
+        function hideMessage() {
+            document.getElementById("message").style.visibility = "hidden";
         }
 
     </script>
