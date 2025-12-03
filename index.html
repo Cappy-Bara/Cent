@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <p>
+        Select lower sound
+    </p>
+
+    <button onclick="checkAnswer(1)">
+        Select first
+    </button>
+
+    <button onclick="playSound(first,500)">
+        Play first
+    </button>
+
+    <button onclick="checkAnswer(2)">
+        Select second
+    </button>
+
+    <button onclick="playSound(second,500)">
+        Play second
+    </button>
+
+    <p id="success">
+        Success!
+    </p>
+
+    <p id="wrong">
+        Wrong!
+    </p>
+
+    <button id="nextButton"
+            onclick="nextQuestion()">
+        Next Question
+    </button>
+
+
+    <script src="http://unpkg.com/tone"></script>
+    <script src="sounds.js"></script>
+
+    <script>
+        const minFrequency = 130.81;
+        const maxFrequency = 1046.5;
+
+        let success = null;
+        let isResponded = false;
+        let first;
+        let second;
+        let isFirstHiger = false;
+
+        nextQuestion();
+
+
+        function checkAnswer(selectedTone) {
+            if ((isFirstHiger && selectedTone === 2) ||
+                (!isFirstHiger && selectedTone === 1)) {
+                showElement("success");
+                showElement("nextButton");
+                success = true;
+                isResponded = true;
+            } else {
+                showElement("wrong");
+                showElement("nextButton");
+                success = false;
+                isResponded = true;
+            }
+        }
+
+        function hideElement(element) {
+            document.getElementById(element).style.display = "none";
+        }
+
+        function showElement(element) {
+            document.getElementById(element).style.display = "block";
+        }
+
+        function nextQuestion() {
+            var lowerSound = (Math.random() * (maxFrequency - minFrequency)) + minFrequency;
+            var upperSound = getDetunedUpperSoundFrequency(lowerSound, 10);
+
+            isFirstHiger = Math.random() < 0.5;
+
+            first = isFirstHiger ? upperSound : lowerSound;
+            second = isFirstHiger ? lowerSound : upperSound;
+
+            hideElement("success")
+            hideElement("wrong")
+            hideElement("nextButton");
+        }
+
+    </script>
+
+
+</body>
+
+</html>
