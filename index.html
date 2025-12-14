@@ -48,6 +48,11 @@
         </div>
     </div>
 
+    <div class="stats">
+        <span>Questions: <strong id="questionCount">0</strong></span>
+        <span>Correct: <strong id="correctCount">0</strong></span>
+    </div>
+
     <div class="game">
 
         <div>
@@ -108,10 +113,11 @@
         let first;
         let second;
         let isFirstHiger = false;
+        let questionCount = 0;
+        let correctCount = 0;
 
         addKeyboardControl();
         nextQuestion();
-
 
         function addKeyboardControl() {
             window.addEventListener('keydown', ev => {
@@ -136,6 +142,7 @@
         function checkAnswer(selectedTone) {
             if ((isFirstHiger && selectedTone === 2) ||
                 (!isFirstHiger && selectedTone === 1)) {
+                correctCount++;
                 showSuccess();
                 showElement("nextButton");
                 success = true;
@@ -157,6 +164,7 @@
         }
 
         function nextQuestion() {
+            questionCount++;
             var lowerSound = (Math.random() * (maxFrequency - minFrequency)) + minFrequency;
             var upperSound = getDetunedUpperSoundFrequency(lowerSound, difficulity);
 
@@ -169,6 +177,8 @@
 
             hideMessage()
             hideElement("nextButton");
+            isResponded = false;
+            updateStats();
         }
 
         function setDifficulity() {
@@ -206,6 +216,11 @@
 
         function hideMessage() {
             document.getElementById("message").style.visibility = "hidden";
+        }
+
+        function updateStats() {
+            document.getElementById("questionCount").textContent = questionCount;
+            document.getElementById("correctCount").textContent = correctCount;
         }
 
     </script>
