@@ -1,30 +1,136 @@
-﻿body {
+﻿/* ---------- Global theme ---------- */
+:root {
+    --bg-main: #0f172a; /* deep navy */
+    --bg-panel: #111827; /* slightly lighter */
+    --accent: #22d3ee; /* cyan */
+    --accent-soft: #67e8f9;
+    --text-main: #e5e7eb; /* light gray */
+    --text-muted: #9ca3af;
+    --success: #22c55e;
+    --error: #ef4444;
+    --border-soft: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Page layout ---------- */
+body {
     margin: 0;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: radial-gradient( circle at top, #1e293b 0%, var(--bg-main) 60% );
+    color: var(--text-main);
 }
 
+    /* ---------- Headline text ---------- */
+    body > p {
+        margin: 32px 0 24px;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+    }
+
+/* ---------- Settings panel ---------- */
 .settings {
     display: flex;
     justify-content: space-evenly;
+    gap: 24px;
     width: 100%;
+    padding: 20px 32px;
     margin-bottom: 5vh;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
 }
 
+    .settings > div {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .settings p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+    }
+
+/* ---------- Inputs ---------- */
+input[type="number"] {
+    width: 140px;
+    padding: 8px 10px;
+    background: #020617;
+    color: var(--text-main);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+    input[type="number"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.25);
+    }
+
+/* ---------- Game area ---------- */
 .game {
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
     width: 100%;
     flex-grow: 0.6;
-    align-items: center;
 }
 
-.control{
-    display: block;
+    .game > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+    }
+
+/* ---------- Buttons ---------- */
+.control,
+#nextButton {
+    padding: 14px 20px;
+    min-width: 180px;
+    background: linear-gradient( 180deg, #1e293b, #020617 );
+    color: var(--text-main);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: 1px solid var(--border-soft);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
+    .control:hover,
+    #nextButton:hover {
+        transform: translateY(-2px);
+        border-color: var(--accent);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .control:active,
+    #nextButton:active {
+        transform: translateY(0);
+    }
+
+    /* ---------- Sound button image ---------- */
+    .control img {
+        filter: invert(88%) sepia(6%) saturate(240%) hue-rotate(180deg);
+        transition: transform 0.15s ease;
+    }
+
+    .control:hover img {
+        transform: scale(1.08);
+    }
+
+/* ---------- Results ---------- */
 .results {
     height: 40px;
     display: flex;
@@ -32,8 +138,39 @@
     align-items: center;
 }
 
-#success,
-#wrong {
+#message {
     margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
     visibility: hidden;
+}
+
+    /* Colors are still set dynamically in JS,
+   but these help if you ever remove inline styles */
+    #message.success {
+        color: var(--success);
+    }
+
+    #message.error {
+        color: var(--error);
+    }
+
+/* ---------- Next button ---------- */
+#nextButton {
+    margin: 28px 0 40px;
+    visibility: hidden;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 700px) {
+    .settings {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .game {
+        flex-direction: column;
+        gap: 32px;
+    }
 }
