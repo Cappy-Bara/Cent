@@ -12,7 +12,6 @@ function getNextFrequency(currentFrequency) {
 }
 
 function playSound(freq, len) {
-  console.log(freq)
   const osc = new Tone.Oscillator(freq, "sine").toDestination().start();
   setTimeout(() => { osc.stop(); osc.dispose(); }, len);
 }

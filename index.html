@@ -103,7 +103,29 @@
         let second;
         let isFirstHiger = false;
 
+        addKeyboardControl();
         nextQuestion();
+
+
+        function addKeyboardControl() {
+            window.addEventListener('keydown', ev => {
+                if (ev.key === "4") {
+                    playSound(first, 500);
+                }
+                if (ev.key === "5") {
+                    playSound(second, 500);
+                }
+                if (ev.key === "1") {
+                    checkAnswer(1);
+                }
+                if (ev.key === "2") {
+                    checkAnswer(2);
+                }
+                if (ev.key === "3" && isResponded) {
+                    nextQuestion();
+                }
+            })
+        }
 
         function checkAnswer(selectedTone) {
             if ((isFirstHiger && selectedTone === 2) ||
