@@ -174,3 +174,51 @@ input[type="number"] {
         gap: 32px;
     }
 }
+
+/* ---------- Keyboard legend ---------- */
+.keyboard-legend {
+    margin-top: auto;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    cursor: default;
+    user-select: none;
+}
+
+/* Title */
+.legend-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Legend items */
+.keyboard-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Keyboard key style */
+.keyboard-legend kbd {
+    display: inline-block;
+    min-width: 1.6em;
+    padding: 4px 7px;
+    text-align: center;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-main);
+    background: linear-gradient(180deg, #1e293b, #020617);
+    border: 1px solid var(--border-soft);
+    border-radius: 6px;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.06), 0 2px 6px rgba(0, 0, 0, 0.4);
+    cursor: default;
+}
