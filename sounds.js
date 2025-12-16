@@ -1,9 +1,5 @@
 function getDetunedUpperSoundFrequency(frequency, cents) {
-  var nextTone = getNextFrequency(frequency);
-  var freqDiff = nextTone - frequency;
-  var centileDiff = freqDiff / 100;
-  var newFreq = frequency + (centileDiff * cents);
-  return newFreq;
+  return frequency * Math.pow(2, cents / 1200);
 }
 
 function getNextFrequency(currentFrequency) {
